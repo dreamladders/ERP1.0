@@ -2,13 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
-
-  <title>Dream Ladders Auth Test</title>
+  <title>Dream Ladders</title>
 
   <style>
     * {
@@ -17,273 +13,893 @@
 
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f4f6f8;
-      color: #222;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f3f5f9;
+      color: #1f2937;
     }
 
-    .container {
-      width: 100%;
-      max-width: 480px;
-      margin: 40px auto;
+    .hidden {
+      display: none !important;
+    }
+
+    /* =========================
+       AUTH
+    ========================= */
+
+    #authScreen {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       padding: 20px;
     }
 
-    .card {
+    .auth-card {
+      width: 100%;
+      max-width: 420px;
       background: white;
-      padding: 25px;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-      margin-bottom: 20px;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
     }
 
-    h1 {
-      margin-top: 0;
+    .brand {
       text-align: center;
+      margin-bottom: 25px;
     }
 
-    h2 {
-      margin-top: 0;
+    .brand h1 {
+      margin: 0;
+      font-size: 28px;
+    }
+
+    .brand p {
+      color: #6b7280;
+      margin-top: 8px;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
     }
 
     label {
       display: block;
-      margin-top: 15px;
-      margin-bottom: 6px;
-      font-weight: bold;
+      margin-bottom: 7px;
+      font-weight: 600;
     }
 
     input {
       width: 100%;
       padding: 12px;
-      border: 1px solid #ccc;
-      border-radius: 7px;
-      font-size: 16px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 15px;
+      outline: none;
     }
 
-    button {
+    input:focus {
+      border-color: #2563eb;
+    }
+
+    .primary-button {
       width: 100%;
-      padding: 12px;
-      margin-top: 18px;
-      border: 0;
-      border-radius: 7px;
-      background: #222;
+      border: none;
+      padding: 13px;
+      border-radius: 8px;
+      background: #111827;
       color: white;
-      font-size: 16px;
+      font-size: 15px;
+      font-weight: 600;
       cursor: pointer;
     }
 
-    button:hover {
-      opacity: 0.9;
+    .primary-button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
     }
 
-    .secondary {
-      background: #666;
+    .secondary-button {
+      border: none;
+      background: transparent;
+      color: #2563eb;
+      font-weight: 600;
+      cursor: pointer;
     }
 
-    .danger {
-      background: #b00020;
+    .switch {
+      text-align: center;
+      margin-top: 18px;
+      font-size: 14px;
     }
 
-    #output {
-      white-space: pre-wrap;
-      word-break: break-word;
-      background: #111;
-      color: #00ff88;
-      padding: 15px;
+    .message {
+      display: none;
+      margin-top: 15px;
+      padding: 11px;
       border-radius: 8px;
-      min-height: 80px;
-      font-family: monospace;
-      font-size: 13px;
+      font-size: 14px;
     }
 
-    .status {
-      margin-top: 12px;
+    .message.error {
+      display: block;
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .message.success {
+      display: block;
+      background: #dcfce7;
+      color: #166534;
+    }
+
+
+    /* =========================
+       PROTECTED APPLICATION
+    ========================= */
+
+    #protectedApp {
+      min-height: 100vh;
+    }
+
+    .topbar {
+      min-height: 64px;
+      background: #111827;
+      color: white;
+      padding: 12px 20px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 15px;
+    }
+
+    .topbar-title {
+      font-size: 19px;
       font-weight: bold;
     }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .user-name {
+      font-size: 14px;
+    }
+
+    .logout-button {
+      border: none;
+      background: #dc2626;
+      color: white;
+      padding: 8px 13px;
+      border-radius: 7px;
+      cursor: pointer;
+    }
+
+    .content {
+      max-width: 1100px;
+      margin: auto;
+      padding: 25px;
+    }
+
+    .card {
+      background: white;
+      padding: 25px;
+      border-radius: 14px;
+      box-shadow: 0 3px 15px rgba(0, 0, 0, 0.05);
+      margin-bottom: 20px;
+    }
+
+    .card h2 {
+      margin-top: 0;
+    }
+
+    .profile-grid {
+      display: grid;
+      grid-template-columns:
+        repeat(auto-fit, minmax(220px, 1fr));
+
+      gap: 15px;
+    }
+
+    .profile-item {
+      background: #f9fafb;
+      padding: 15px;
+      border-radius: 8px;
+    }
+
+    .profile-label {
+      color: #6b7280;
+      font-size: 12px;
+      margin-bottom: 5px;
+    }
+
+    .profile-value {
+      font-weight: 600;
+      word-break: break-word;
+    }
+
+
+    /* =========================
+       ADMIN
+    ========================= */
+
+    .admin-badge {
+      display: inline-block;
+      background: #ede9fe;
+      color: #6d28d9;
+      padding: 5px 9px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .user-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+
+    .user-table th,
+    .user-table td {
+      padding: 10px;
+      border-bottom: 1px solid #e5e7eb;
+      text-align: left;
+      font-size: 14px;
+    }
+
+    .user-table th {
+      background: #f9fafb;
+    }
+
+    .small-button {
+      border: none;
+      padding: 7px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin: 2px;
+    }
+
+    .role-button {
+      background: #dbeafe;
+      color: #1d4ed8;
+    }
+
+    .status-button {
+      background: #fee2e2;
+      color: #b91c1c;
+    }
+
+
+    /* =========================
+       CHANGE PASSWORD
+    ========================= */
+
+    .change-password {
+      max-width: 500px;
+    }
+
+
+    /* =========================
+       LOADING
+    ========================= */
+
+    #loading {
+      position: fixed;
+      inset: 0;
+
+      display: none;
+      align-items: center;
+      justify-content: center;
+
+      background: rgba(255, 255, 255, 0.8);
+
+      z-index: 9999;
+    }
+
+    .loading-box {
+      background: #111827;
+      color: white;
+      padding: 15px 22px;
+      border-radius: 8px;
+    }
+
+
+    @media (max-width: 650px) {
+
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .topbar-right {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .content {
+        padding: 15px;
+      }
+
+      .user-table {
+        display: block;
+        overflow-x: auto;
+      }
+
+    }
+
   </style>
 </head>
 
+
 <body>
 
-  <div class="container">
 
-    <div class="card">
+<!-- =====================================================
+     AUTH SCREEN
+===================================================== -->
+
+<div id="authScreen">
+
+  <div class="auth-card">
+
+    <div class="brand">
 
       <h1>Dream Ladders</h1>
 
-      <p>
-        Authentication API Test
+      <p id="authSubtitle">
+        Please login to continue
       </p>
 
-      <label for="registerName">
-        Name
-      </label>
-
-      <input
-        id="registerName"
-        type="text"
-        placeholder="Test User"
-      >
+    </div>
 
 
-      <label for="registerEmail">
-        Email
-      </label>
+    <!-- =========================
+         LOGIN FORM
+    ========================== -->
 
-      <input
-        id="registerEmail"
-        type="email"
-        placeholder="test@example.com"
-      >
+    <form
+      id="loginForm"
+      onsubmit="login(event)"
+    >
+
+      <div class="form-group">
+
+        <label for="loginEmail">
+          Email
+        </label>
+
+        <input
+          id="loginEmail"
+          type="email"
+          autocomplete="username"
+          required
+        >
+
+      </div>
 
 
-      <label for="registerPassword">
-        Password
-      </label>
+      <div class="form-group">
 
-      <input
-        id="registerPassword"
-        type="password"
-        placeholder="TestUser2026"
-      >
+        <label for="loginPassword">
+          Password
+        </label>
+
+        <input
+          id="loginPassword"
+          type="password"
+          autocomplete="current-password"
+          required
+        >
+
+      </div>
 
 
       <button
-        onclick="registerUser()"
+        id="loginButton"
+        class="primary-button"
+        type="submit"
       >
-        Register User
+        Login
+      </button>
+
+    </form>
+
+
+    <!-- =========================
+         REGISTER FORM
+    ========================== -->
+
+    <form
+      id="registerForm"
+      class="hidden"
+      onsubmit="register(event)"
+    >
+
+      <div class="form-group">
+
+        <label for="registerName">
+          Name
+        </label>
+
+        <input
+          id="registerName"
+          type="text"
+          autocomplete="name"
+          required
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label for="registerEmail">
+          Email
+        </label>
+
+        <input
+          id="registerEmail"
+          type="email"
+          autocomplete="email"
+          required
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label for="registerPassword">
+          Password
+        </label>
+
+        <input
+          id="registerPassword"
+          type="password"
+          autocomplete="new-password"
+          minlength="8"
+          required
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label for="registerConfirmPassword">
+          Confirm Password
+        </label>
+
+        <input
+          id="registerConfirmPassword"
+          type="password"
+          autocomplete="new-password"
+          minlength="8"
+          required
+        >
+
+      </div>
+
+
+      <button
+        id="registerButton"
+        class="primary-button"
+        type="submit"
+      >
+        Create Account
+      </button>
+
+    </form>
+
+
+    <div class="switch">
+
+      <span id="switchText">
+        Don't have an account?
+      </span>
+
+      <button
+        id="switchButton"
+        class="secondary-button"
+        type="button"
+        onclick="toggleAuthMode()"
+      >
+        Register
       </button>
 
     </div>
 
 
-    <div class="card">
+    <div
+      id="authMessage"
+      class="message"
+    ></div>
 
-      <h2>Login</h2>
+  </div>
 
-      <label for="loginEmail">
-        Email
-      </label>
-
-      <input
-        id="loginEmail"
-        type="email"
-        placeholder="test@example.com"
-      >
+</div>
 
 
-      <label for="loginPassword">
-        Password
-      </label>
+<!-- =====================================================
+     PROTECTED APPLICATION
+===================================================== -->
 
-      <input
-        id="loginPassword"
-        type="password"
-        placeholder="TestUser2026"
-      >
-
-
-      <button
-        onclick="loginUser()"
-      >
-        Login
-      </button>
+<div
+  id="protectedApp"
+  class="hidden"
+>
 
 
-      <button
-        class="secondary"
-        onclick="getCurrentUser()"
-      >
-        Check My Session
-      </button>
+  <!-- =========================
+       TOP BAR
+  ========================== -->
+
+  <header class="topbar">
+
+    <div class="topbar-title">
+      Dream Ladders ERP
+    </div>
+
+
+    <div class="topbar-right">
+
+      <span
+        id="topbarUserName"
+        class="user-name"
+      ></span>
 
 
       <button
-        class="danger"
-        onclick="logoutUser()"
+        class="logout-button"
+        onclick="logout()"
       >
         Logout
       </button>
 
     </div>
 
+  </header>
 
-    <div class="card">
 
-      <h2>API Response</h2>
+  <main class="content">
 
-      <div id="output">
-Waiting...
+
+    <!-- =========================
+         WELCOME
+    ========================== -->
+
+    <section class="card">
+
+      <h2>
+        Welcome to Dream Ladders
+      </h2>
+
+      <p>
+        You are successfully authenticated.
+      </p>
+
+    </section>
+
+
+    <!-- =========================
+         PROFILE
+    ========================== -->
+
+    <section class="card">
+
+      <h2>
+        My Profile
+      </h2>
+
+
+      <div class="profile-grid">
+
+
+        <div class="profile-item">
+
+          <div class="profile-label">
+            User ID
+          </div>
+
+          <div
+            id="profileUserId"
+            class="profile-value"
+          >
+            -
+          </div>
+
+        </div>
+
+
+        <div class="profile-item">
+
+          <div class="profile-label">
+            Name
+          </div>
+
+          <div
+            id="profileName"
+            class="profile-value"
+          >
+            -
+          </div>
+
+        </div>
+
+
+        <div class="profile-item">
+
+          <div class="profile-label">
+            Email
+          </div>
+
+          <div
+            id="profileEmail"
+            class="profile-value"
+          >
+            -
+          </div>
+
+        </div>
+
+
+        <div class="profile-item">
+
+          <div class="profile-label">
+            Role
+          </div>
+
+          <div
+            id="profileRole"
+            class="profile-value"
+          >
+            -
+          </div>
+
+        </div>
+
+
+        <div class="profile-item">
+
+          <div class="profile-label">
+            Status
+          </div>
+
+          <div
+            id="profileStatus"
+            class="profile-value"
+          >
+            -
+          </div>
+
+        </div>
+
+
       </div>
 
+    </section>
+
+
+    <!-- =========================
+         CHANGE PASSWORD
+    ========================== -->
+
+    <section class="card change-password">
+
+      <h2>
+        Change Password
+      </h2>
+
+
+      <form
+        onsubmit="changePassword(event)"
+      >
+
+        <div class="form-group">
+
+          <label>
+            Current Password
+          </label>
+
+          <input
+            id="oldPassword"
+            type="password"
+            required
+          >
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>
+            New Password
+          </label>
+
+          <input
+            id="newPassword"
+            type="password"
+            minlength="8"
+            required
+          >
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>
+            Confirm New Password
+          </label>
+
+          <input
+            id="confirmNewPassword"
+            type="password"
+            minlength="8"
+            required
+          >
+
+        </div>
+
+
+        <button
+          class="primary-button"
+          type="submit"
+        >
+          Change Password
+        </button>
+
+      </form>
+
+
       <div
-        id="status"
-        class="status"
+        id="passwordMessage"
+        class="message"
       ></div>
 
-    </div>
+    </section>
 
+
+    <!-- =========================
+         ADMIN PANEL
+    ========================== -->
+
+    <section
+      id="adminPanel"
+      class="card hidden"
+    >
+
+      <h2>
+        Admin Panel
+      </h2>
+
+      <p>
+
+        <span class="admin-badge">
+          Administrator
+        </span>
+
+      </p>
+
+
+      <button
+        class="primary-button"
+        onclick="loadUsers()"
+      >
+        Refresh Users
+      </button>
+
+
+      <div id="usersContainer">
+
+        <p>
+          Click Refresh Users to load users.
+        </p>
+
+      </div>
+
+    </section>
+
+
+  </main>
+
+</div>
+
+
+<!-- =====================================================
+     LOADING
+===================================================== -->
+
+<div id="loading">
+
+  <div class="loading-box">
+    Please wait...
   </div>
+
+</div>
 
 
 <script>
 
-/************************************************************
- * YOUR APPS SCRIPT WEB APP URL
- *
- * IMPORTANT:
- * Paste your NEW working /exec URL here.
- ************************************************************/
+/* =========================================================
+   CONFIGURATION
+========================================================= */
 
 const API_URL =
-  "https://script.google.com/macros/s/AKfycbzeWyzu9uPCyJ0gR5avadzKAHnORa_EFHGUosxGqpfXG2e3EASlHh5tnUKB1T4O7Lwf2g/exec";
+  "https://script.google.com/macros/s/AKfycbyvsAY2Ux58HfP_KH9wueajN8D53s7oE7hYQiAA2ECPfb515k7Mjdirb9FpQoNF4VoHUQ/exec";
 
 
-/************************************************************
- * DISPLAY RESULT
- ************************************************************/
+const TOKEN_KEY =
+  "dreamLaddersToken";
 
-function showResult(data) {
 
-  document.getElementById(
-    "output"
-  ).textContent =
-    JSON.stringify(
-      data,
-      null,
-      2
+let currentUser = null;
+
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+function setLoading(show) {
+
+  document
+    .getElementById("loading")
+    .style.display =
+      show ? "flex" : "none";
+
+}
+
+
+/* =========================================================
+   AUTH MESSAGE
+========================================================= */
+
+function showAuthMessage(
+  text,
+  type = "error"
+) {
+
+  const box =
+    document.getElementById(
+      "authMessage"
     );
 
-}
+  box.textContent = text;
 
-
-/************************************************************
- * DISPLAY STATUS
- ************************************************************/
-
-function showStatus(message) {
-
-  document.getElementById(
-    "status"
-  ).textContent =
-    message;
+  box.className =
+    "message " + type;
 
 }
 
 
-/************************************************************
- * GENERIC API REQUEST
- ************************************************************/
+function showPasswordMessage(
+  text,
+  type = "error"
+) {
+
+  const box =
+    document.getElementById(
+      "passwordMessage"
+    );
+
+  box.textContent = text;
+
+  box.className =
+    "message " + type;
+
+}
+
+
+/* =========================================================
+   API
+========================================================= */
 
 async function apiRequest(
   payload
 ) {
-
-  showStatus(
-    "Sending request..."
-  );
-
 
   try {
 
@@ -291,21 +907,15 @@ async function apiRequest(
       await fetch(
         API_URL,
         {
-
           method: "POST",
 
           headers: {
-
             "Content-Type":
               "text/plain;charset=utf-8"
-
           },
 
           body:
-            JSON.stringify(
-              payload
-            )
-
+            JSON.stringify(payload)
         }
       );
 
@@ -314,90 +924,127 @@ async function apiRequest(
       await response.text();
 
 
-    let data;
-
-
     try {
 
-      data =
-        JSON.parse(
-          text
-        );
+      return JSON.parse(text);
 
-    } catch (error) {
+    } catch {
 
-      data = {
-
+      return {
         success: false,
-
         error:
-          "Server returned non-JSON response",
-
-        raw:
-          text
-
+          "Invalid response from server."
       };
 
     }
 
-
-    showResult(
-      data
-    );
-
-
-    if (
-      data.success
-    ) {
-
-      showStatus(
-        "Success"
-      );
-
-    } else {
-
-      showStatus(
-        "Request failed"
-      );
-
-    }
-
-
-    return data;
-
-
   } catch (error) {
 
-    const result = {
+    console.error(error);
 
+    return {
       success: false,
-
       error:
-        error.message
-
+        "Unable to connect to server."
     };
 
-
-    showResult(
-      result
-    );
-
-
-    showStatus(
-      "Network error"
-    );
-
-
-    return result;
   }
+
 }
 
 
-/************************************************************
- * REGISTER
- ************************************************************/
+/* =========================================================
+   AUTH MODE
+========================================================= */
 
-async function registerUser() {
+function toggleAuthMode() {
+
+  const loginForm =
+    document.getElementById(
+      "loginForm"
+    );
+
+  const registerForm =
+    document.getElementById(
+      "registerForm"
+    );
+
+  const subtitle =
+    document.getElementById(
+      "authSubtitle"
+    );
+
+  const switchText =
+    document.getElementById(
+      "switchText"
+    );
+
+  const switchButton =
+    document.getElementById(
+      "switchButton"
+    );
+
+
+  const registerVisible =
+    !registerForm.classList.contains(
+      "hidden"
+    );
+
+
+  if (registerVisible) {
+
+    registerForm.classList.add(
+      "hidden"
+    );
+
+    loginForm.classList.remove(
+      "hidden"
+    );
+
+    subtitle.textContent =
+      "Please login to continue";
+
+    switchText.textContent =
+      "Don't have an account?";
+
+    switchButton.textContent =
+      "Register";
+
+  } else {
+
+    loginForm.classList.add(
+      "hidden"
+    );
+
+    registerForm.classList.remove(
+      "hidden"
+    );
+
+    subtitle.textContent =
+      "Create your account";
+
+    switchText.textContent =
+      "Already have an account?";
+
+    switchButton.textContent =
+      "Login";
+
+  }
+
+
+  showAuthMessage("");
+
+}
+
+
+/* =========================================================
+   REGISTER
+========================================================= */
+
+async function register(event) {
+
+  event.preventDefault();
+
 
   const name =
     document
@@ -425,44 +1072,112 @@ async function registerUser() {
       .value;
 
 
+  const confirmPassword =
+    document
+      .getElementById(
+        "registerConfirmPassword"
+      )
+      .value;
+
+
   if (
-    !name ||
-    !email ||
-    !password
+    password !==
+    confirmPassword
   ) {
 
-    showStatus(
-      "Please fill all registration fields."
+    showAuthMessage(
+      "Passwords do not match."
     );
 
     return;
   }
 
 
-  await apiRequest({
+  if (password.length < 8) {
 
-    action:
-      "register",
+    showAuthMessage(
+      "Password must contain at least 8 characters."
+    );
 
-    name:
-      name,
+    return;
+  }
 
-    email:
-      email,
 
-    password:
-      password
+  setLoading(true);
 
-  });
+
+  const result =
+    await apiRequest({
+
+      action:
+        "register",
+
+      name:
+        name,
+
+      email:
+        email,
+
+      password:
+        password
+
+    });
+
+
+  setLoading(false);
+
+
+  if (!result.success) {
+
+    showAuthMessage(
+      result.error ||
+        "Registration failed."
+    );
+
+    return;
+  }
+
+
+  showAuthMessage(
+    "Account created successfully. Please login.",
+    "success"
+  );
+
+
+  document
+    .getElementById(
+      "registerForm"
+    )
+    .reset();
+
+
+  setTimeout(
+    () => {
+
+      toggleAuthMode();
+
+      document
+        .getElementById(
+          "loginEmail"
+        )
+        .value =
+          email;
+
+    },
+    1000
+  );
 
 }
 
 
-/************************************************************
- * LOGIN
- ************************************************************/
+/* =========================================================
+   LOGIN
+========================================================= */
 
-async function loginUser() {
+async function login(event) {
+
+  event.preventDefault();
+
 
   const email =
     document
@@ -481,20 +1196,20 @@ async function loginUser() {
       .value;
 
 
-  if (
-    !email ||
-    !password
-  ) {
+  if (!email || !password) {
 
-    showStatus(
-      "Enter email and password."
+    showAuthMessage(
+      "Email and password are required."
     );
 
     return;
   }
 
 
-  const data =
+  setLoading(true);
+
+
+  const result =
     await apiRequest({
 
       action:
@@ -509,102 +1224,244 @@ async function loginUser() {
     });
 
 
+  setLoading(false);
+
+
+  if (!result.success) {
+
+    showAuthMessage(
+      result.error ||
+        "Invalid email or password."
+    );
+
+    return;
+  }
+
+
+  if (!result.token) {
+
+    showAuthMessage(
+      "Login failed: no session token received."
+    );
+
+    return;
+  }
+
+
   /*
-   * Save session token.
+   * Store only the session token.
+   *
+   * Password is NEVER stored.
    */
 
+  localStorage.setItem(
+    TOKEN_KEY,
+    result.token
+  );
+
+
+  await verifySession();
+
+}
+
+
+/* =========================================================
+   VERIFY SESSION
+========================================================= */
+
+async function verifySession() {
+
+  const token =
+    localStorage.getItem(
+      TOKEN_KEY
+    );
+
+
+  if (!token) {
+
+    showLogin();
+
+    return;
+  }
+
+
+  setLoading(true);
+
+
+  const result =
+    await apiRequest({
+
+      action:
+        "me",
+
+      token:
+        token
+
+    });
+
+
+  setLoading(false);
+
+
   if (
-    data &&
-    data.success &&
-    data.token
+    !result.success ||
+    !result.user
   ) {
 
-    localStorage.setItem(
+    localStorage.removeItem(
+      TOKEN_KEY
+    );
 
-      "dreamLaddersToken",
+    currentUser = null;
 
-      data.token
+    showLogin();
 
+    return;
+  }
+
+
+  currentUser =
+    result.user;
+
+
+  showProtectedApplication(
+    currentUser
+  );
+
+}
+
+
+/* =========================================================
+   SHOW PROTECTED APPLICATION
+========================================================= */
+
+function showProtectedApplication(
+  user
+) {
+
+  document
+    .getElementById(
+      "authScreen"
+    )
+    .classList.add(
+      "hidden"
     );
 
 
-    localStorage.setItem(
+  document
+    .getElementById(
+      "protectedApp"
+    )
+    .classList.remove(
+      "hidden"
+    );
 
-      "dreamLaddersUser",
 
-      JSON.stringify(
-        data.user
+  document.getElementById(
+    "topbarUserName"
+  ).textContent =
+    user.name;
+
+
+  document.getElementById(
+    "profileUserId"
+  ).textContent =
+    user.userId;
+
+
+  document.getElementById(
+    "profileName"
+  ).textContent =
+    user.name;
+
+
+  document.getElementById(
+    "profileEmail"
+  ).textContent =
+    user.email;
+
+
+  document.getElementById(
+    "profileRole"
+  ).textContent =
+    user.role;
+
+
+  document.getElementById(
+    "profileStatus"
+  ).textContent =
+    user.status;
+
+
+  /*
+   * Admin UI.
+   */
+
+  if (user.role === "Admin") {
+
+    document
+      .getElementById(
+        "adminPanel"
       )
+      .classList.remove(
+        "hidden"
+      );
 
-    );
+  } else {
 
+    document
+      .getElementById(
+        "adminPanel"
+      )
+      .classList.add(
+        "hidden"
+      );
 
-    showStatus(
-      "Login successful. Session saved."
-    );
   }
 
 }
 
 
-/************************************************************
- * GET CURRENT USER
- ************************************************************/
+/* =========================================================
+   SHOW LOGIN
+========================================================= */
 
-async function getCurrentUser() {
+function showLogin() {
 
-  const token =
-    localStorage.getItem(
-      "dreamLaddersToken"
+  document
+    .getElementById(
+      "protectedApp"
+    )
+    .classList.add(
+      "hidden"
     );
 
 
-  if (!token) {
-
-    showStatus(
-      "No login session found."
+  document
+    .getElementById(
+      "authScreen"
+    )
+    .classList.remove(
+      "hidden"
     );
-
-    return;
-  }
-
-
-  await apiRequest({
-
-    action:
-      "me",
-
-    token:
-      token
-
-  });
 
 }
 
 
-/************************************************************
- * LOGOUT
- ************************************************************/
+/* =========================================================
+   LOGOUT
+========================================================= */
 
-async function logoutUser() {
+async function logout() {
 
   const token =
     localStorage.getItem(
-      "dreamLaddersToken"
+      TOKEN_KEY
     );
 
 
-  if (!token) {
+  if (token) {
 
-    showStatus(
-      "Already logged out."
-    );
-
-    return;
-  }
-
-
-  const data =
     await apiRequest({
 
       action:
@@ -615,59 +1472,591 @@ async function logoutUser() {
 
     });
 
-
-  if (
-    data &&
-    data.success
-  ) {
-
-    localStorage.removeItem(
-      "dreamLaddersToken"
-    );
-
-
-    localStorage.removeItem(
-      "dreamLaddersUser"
-    );
-
-
-    showStatus(
-      "Logged out."
-    );
   }
+
+
+  localStorage.removeItem(
+    TOKEN_KEY
+  );
+
+
+  currentUser = null;
+
+
+  document
+    .getElementById(
+      "loginForm"
+    )
+    .reset();
+
+
+  showLogin();
 
 }
 
 
-/************************************************************
- * PAGE LOAD
- ************************************************************/
+/* =========================================================
+   CHANGE PASSWORD
+========================================================= */
+
+async function changePassword(
+  event
+) {
+
+  event.preventDefault();
+
+
+  const token =
+    localStorage.getItem(
+      TOKEN_KEY
+    );
+
+
+  if (!token) {
+
+    showLogin();
+
+    return;
+  }
+
+
+  const oldPassword =
+    document
+      .getElementById(
+        "oldPassword"
+      )
+      .value;
+
+
+  const newPassword =
+    document
+      .getElementById(
+        "newPassword"
+      )
+      .value;
+
+
+  const confirmPassword =
+    document
+      .getElementById(
+        "confirmNewPassword"
+      )
+      .value;
+
+
+  if (
+    newPassword !==
+    confirmPassword
+  ) {
+
+    showPasswordMessage(
+      "New passwords do not match."
+    );
+
+    return;
+  }
+
+
+  if (newPassword.length < 8) {
+
+    showPasswordMessage(
+      "New password must contain at least 8 characters."
+    );
+
+    return;
+  }
+
+
+  setLoading(true);
+
+
+  const result =
+    await apiRequest({
+
+      action:
+        "changePassword",
+
+      token:
+        token,
+
+      oldPassword:
+        oldPassword,
+
+      newPassword:
+        newPassword
+
+    });
+
+
+  setLoading(false);
+
+
+  if (!result.success) {
+
+    showPasswordMessage(
+      result.error ||
+        "Password change failed."
+    );
+
+    return;
+  }
+
+
+  document
+    .getElementById(
+      "oldPassword"
+    )
+    .value = "";
+
+
+  document
+    .getElementById(
+      "newPassword"
+    )
+    .value = "";
+
+
+  document
+    .getElementById(
+      "confirmNewPassword"
+    )
+    .value = "";
+
+
+  showPasswordMessage(
+    "Password changed successfully.",
+    "success"
+  );
+
+}
+
+
+/* =========================================================
+   ADMIN — LOAD USERS
+========================================================= */
+
+async function loadUsers() {
+
+  if (
+    !currentUser ||
+    currentUser.role !== "Admin"
+  ) {
+
+    alert(
+      "Access denied."
+    );
+
+    return;
+  }
+
+
+  const token =
+    localStorage.getItem(
+      TOKEN_KEY
+    );
+
+
+  if (!token) {
+
+    showLogin();
+
+    return;
+  }
+
+
+  setLoading(true);
+
+
+  const result =
+    await apiRequest({
+
+      action:
+        "adminUsers",
+
+      token:
+        token
+
+    });
+
+
+  setLoading(false);
+
+
+  if (!result.success) {
+
+    alert(
+      result.error ||
+        "Unable to load users."
+    );
+
+    return;
+  }
+
+
+  renderUsers(
+    result.users || []
+  );
+
+}
+
+
+/* =========================================================
+   ADMIN — RENDER USERS
+========================================================= */
+
+function renderUsers(
+  users
+) {
+
+  const container =
+    document.getElementById(
+      "usersContainer"
+    );
+
+
+  if (!users.length) {
+
+    container.innerHTML =
+      "<p>No users found.</p>";
+
+    return;
+  }
+
+
+  let html = `
+    <div style="overflow-x:auto;">
+      <table class="user-table">
+
+        <thead>
+          <tr>
+            <th>User ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+  `;
+
+
+  users.forEach(
+    user => {
+
+      const roleButtonText =
+        user.role === "Admin"
+          ? "Make User"
+          : "Make Admin";
+
+
+      const statusButtonText =
+        user.status === "Active"
+          ? "Suspend"
+          : "Activate";
+
+
+      html += `
+        <tr>
+
+          <td>
+            ${escapeHtml(user.userId)}
+          </td>
+
+          <td>
+            ${escapeHtml(user.name)}
+          </td>
+
+          <td>
+            ${escapeHtml(user.email)}
+          </td>
+
+          <td>
+            ${escapeHtml(user.role)}
+          </td>
+
+          <td>
+            ${escapeHtml(user.status)}
+          </td>
+
+          <td>
+
+            <button
+              class="small-button role-button"
+              onclick="changeRole(
+                '${escapeJs(user.userId)}',
+                '${escapeJs(user.role)}'
+              )"
+            >
+              ${roleButtonText}
+            </button>
+
+
+            <button
+              class="small-button status-button"
+              onclick="changeStatus(
+                '${escapeJs(user.userId)}',
+                '${escapeJs(user.status)}'
+              )"
+            >
+              ${statusButtonText}
+            </button>
+
+          </td>
+
+        </tr>
+      `;
+
+    }
+  );
+
+
+  html += `
+        </tbody>
+      </table>
+    </div>
+  `;
+
+
+  container.innerHTML =
+    html;
+
+}
+
+
+/* =========================================================
+   ADMIN — CHANGE ROLE
+========================================================= */
+
+async function changeRole(
+  userId,
+  currentRole
+) {
+
+  const newRole =
+    currentRole === "Admin"
+      ? "User"
+      : "Admin";
+
+
+  if (
+    !confirm(
+      "Change this user's role to " +
+      newRole +
+      "?"
+    )
+  ) {
+
+    return;
+  }
+
+
+  const token =
+    localStorage.getItem(
+      TOKEN_KEY
+    );
+
+
+  setLoading(true);
+
+
+  const result =
+    await apiRequest({
+
+      action:
+        "changeUserRole",
+
+      token:
+        token,
+
+      userId:
+        userId,
+
+      role:
+        newRole
+
+    });
+
+
+  setLoading(false);
+
+
+  if (!result.success) {
+
+    alert(
+      result.error ||
+        "Unable to change role."
+    );
+
+    return;
+  }
+
+
+  await loadUsers();
+
+}
+
+
+/* =========================================================
+   ADMIN — CHANGE STATUS
+========================================================= */
+
+async function changeStatus(
+  userId,
+  currentStatus
+) {
+
+  const newStatus =
+    currentStatus === "Active"
+      ? "Suspended"
+      : "Active";
+
+
+  if (
+    !confirm(
+      "Change this user's status to " +
+      newStatus +
+      "?"
+    )
+  ) {
+
+    return;
+  }
+
+
+  const token =
+    localStorage.getItem(
+      TOKEN_KEY
+    );
+
+
+  setLoading(true);
+
+
+  const result =
+    await apiRequest({
+
+      action:
+        "changeUserStatus",
+
+      token:
+        token,
+
+      userId:
+        userId,
+
+      status:
+        newStatus
+
+    });
+
+
+  setLoading(false);
+
+
+  if (!result.success) {
+
+    alert(
+      result.error ||
+        "Unable to change status."
+    );
+
+    return;
+  }
+
+
+  await loadUsers();
+
+}
+
+
+/* =========================================================
+   SECURITY HELPERS
+========================================================= */
+
+function escapeHtml(
+  value
+) {
+
+  return String(value)
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+    .replace(
+      /</g,
+      "&lt;"
+    )
+    .replace(
+      />/g,
+      "&gt;"
+    )
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+    .replace(
+      /'/g,
+      "&#039;"
+    );
+
+}
+
+
+function escapeJs(
+  value
+) {
+
+  return String(value)
+    .replace(
+      /\\/g,
+      "\\\\"
+    )
+    .replace(
+      /'/g,
+      "\\'"
+    );
+
+}
+
+
+/* =========================================================
+   INITIALIZE
+========================================================= */
+
+async function initialize() {
+
+  /*
+   * On every page load:
+   *
+   * 1. Read token.
+   * 2. Ask Apps Script "me".
+   * 3. Only then show protected content.
+   */
+
+  const token =
+    localStorage.getItem(
+      TOKEN_KEY
+    );
+
+
+  if (!token) {
+
+    showLogin();
+
+    return;
+  }
+
+
+  await verifySession();
+
+}
+
 
 window.addEventListener(
   "DOMContentLoaded",
-  function() {
-
-    const token =
-      localStorage.getItem(
-        "dreamLaddersToken"
-      );
-
-
-    if (token) {
-
-      showStatus(
-        "Existing session token found."
-      );
-
-    } else {
-
-      showStatus(
-        "No active session."
-      );
-
-    }
-
-  }
+  initialize
 );
 
 </script>
