@@ -8,282 +8,554 @@
     content="width=device-width, initial-scale=1.0"
   >
 
-  <title>Dream Ladders Auth Test</title>
+  <title>Dream Ladders</title>
 
   <style>
+
     * {
       box-sizing: border-box;
     }
 
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f4f6f8;
-      color: #222;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f3f5f9;
+      color: #1f2937;
     }
 
-    .container {
-      width: 100%;
-      max-width: 480px;
-      margin: 40px auto;
+    .hidden {
+      display: none !important;
+    }
+
+    /* =========================
+       AUTH
+    ========================= */
+
+    #authScreen {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       padding: 20px;
     }
 
-    .card {
-      background: white;
-      padding: 25px;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-      margin-bottom: 20px;
+    .login-card {
+      width: 100%;
+      max-width: 400px;
+      background: #fff;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 10px 35px rgba(0,0,0,.08);
     }
 
-    h1 {
-      margin-top: 0;
+    .brand {
       text-align: center;
+      margin-bottom: 25px;
     }
 
-    h2 {
-      margin-top: 0;
+    .brand h1 {
+      margin: 0;
+      font-size: 28px;
+    }
+
+    .brand p {
+      color: #6b7280;
+      margin-top: 8px;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
     }
 
     label {
       display: block;
-      margin-top: 15px;
-      margin-bottom: 6px;
-      font-weight: bold;
+      font-weight: 600;
+      margin-bottom: 7px;
     }
 
     input {
       width: 100%;
       padding: 12px;
-      border: 1px solid #ccc;
-      border-radius: 7px;
-      font-size: 16px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      outline: none;
     }
 
-    button {
+    input:focus {
+      border-color: #111827;
+    }
+
+    .button {
       width: 100%;
-      padding: 12px;
-      margin-top: 18px;
       border: 0;
-      border-radius: 7px;
-      background: #222;
+      padding: 13px;
+      border-radius: 8px;
+      background: #111827;
       color: white;
-      font-size: 16px;
+      font-weight: 600;
       cursor: pointer;
     }
 
-    button:hover {
-      opacity: 0.9;
+    .button:disabled {
+      opacity: .6;
+      cursor: not-allowed;
     }
 
-    .secondary {
-      background: #666;
-    }
-
-    .danger {
-      background: #b00020;
-    }
-
-    #output {
-      white-space: pre-wrap;
-      word-break: break-word;
-      background: #111;
-      color: #00ff88;
-      padding: 15px;
+    .message {
+      margin-top: 15px;
+      padding: 11px;
       border-radius: 8px;
-      min-height: 80px;
-      font-family: monospace;
-      font-size: 13px;
+      display: none;
+      font-size: 14px;
     }
 
-    .status {
-      margin-top: 12px;
+    .message.error {
+      display: block;
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .message.success {
+      display: block;
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .switch {
+      margin-top: 18px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .switch button {
+      border: 0;
+      background: none;
+      color: #2563eb;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+
+    /* =========================
+       PROTECTED APPLICATION
+    ========================= */
+
+    #protectedApp {
+      min-height: 100vh;
+    }
+
+    .topbar {
+      height: 64px;
+      background: #111827;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+    }
+
+    .topbar-title {
+      font-size: 19px;
       font-weight: bold;
     }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .user-name {
+      font-size: 14px;
+    }
+
+    .logout {
+      border: 0;
+      background: #dc2626;
+      color: white;
+      padding: 8px 13px;
+      border-radius: 7px;
+      cursor: pointer;
+    }
+
+    .content {
+      padding: 25px;
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    .welcome-card {
+      background: white;
+      border-radius: 14px;
+      padding: 25px;
+      box-shadow: 0 3px 15px rgba(0,0,0,.05);
+    }
+
+    .welcome-card h2 {
+      margin-top: 0;
+    }
+
+    .profile-grid {
+      display: grid;
+      grid-template-columns:
+        repeat(auto-fit, minmax(220px, 1fr));
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .profile-item {
+      background: #f9fafb;
+      padding: 15px;
+      border-radius: 8px;
+    }
+
+    .profile-label {
+      font-size: 12px;
+      color: #6b7280;
+      margin-bottom: 5px;
+    }
+
+    .profile-value {
+      font-weight: 600;
+      word-break: break-word;
+    }
+
+
+    /* =========================
+       LOADING
+    ========================= */
+
+    #loading {
+      position: fixed;
+      inset: 0;
+      background: rgba(255,255,255,.8);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+
+    .loading-box {
+      background: #111827;
+      color: white;
+      padding: 15px 22px;
+      border-radius: 8px;
+    }
+
   </style>
 </head>
 
+
 <body>
 
-  <div class="container">
 
-    <div class="card">
+<!-- =====================================================
+     LOGIN / REGISTER SCREEN
+===================================================== -->
+
+<div id="authScreen">
+
+  <div class="login-card">
+
+    <div class="brand">
 
       <h1>Dream Ladders</h1>
 
       <p>
-        Authentication API Test
+        Please login to continue
       </p>
 
-      <label for="registerName">
-        Name
-      </label>
-
-      <input
-        id="registerName"
-        type="text"
-        placeholder="Test User"
-      >
+    </div>
 
 
-      <label for="registerEmail">
-        Email
-      </label>
+    <!-- LOGIN -->
 
-      <input
-        id="registerEmail"
-        type="email"
-        placeholder="test@example.com"
-      >
+    <form
+      id="loginForm"
+      onsubmit="login(event)"
+    >
+
+      <div class="form-group">
+
+        <label for="email">
+          Email
+        </label>
+
+        <input
+          id="email"
+          type="email"
+          autocomplete="username"
+          required
+        >
+
+      </div>
 
 
-      <label for="registerPassword">
-        Password
-      </label>
+      <div class="form-group">
 
-      <input
-        id="registerPassword"
-        type="password"
-        placeholder="TestUser2026"
-      >
+        <label for="password">
+          Password
+        </label>
+
+        <input
+          id="password"
+          type="password"
+          autocomplete="current-password"
+          required
+        >
+
+      </div>
 
 
       <button
-        onclick="registerUser()"
+        id="loginButton"
+        class="button"
+        type="submit"
       >
-        Register User
+        Login
+      </button>
+
+    </form>
+
+
+    <!-- REGISTER -->
+
+    <div class="switch">
+
+      Don't have an account?
+
+      <button
+        type="button"
+        onclick="showRegister()"
+      >
+        Register
       </button>
 
     </div>
 
 
-    <div class="card">
+    <div
+      id="message"
+      class="message"
+    ></div>
 
-      <h2>Login</h2>
+  </div>
 
-      <label for="loginEmail">
-        Email
-      </label>
-
-      <input
-        id="loginEmail"
-        type="email"
-        placeholder="test@example.com"
-      >
+</div>
 
 
-      <label for="loginPassword">
-        Password
-      </label>
+<!-- =====================================================
+     PROTECTED APPLICATION
+===================================================== -->
 
-      <input
-        id="loginPassword"
-        type="password"
-        placeholder="TestUser2026"
-      >
+<div
+  id="protectedApp"
+  class="hidden"
+>
 
+  <header class="topbar">
 
-      <button
-        onclick="loginUser()"
-      >
-        Login
-      </button>
+    <div class="topbar-title">
+      Dream Ladders ERP
+    </div>
 
 
-      <button
-        class="secondary"
-        onclick="getCurrentUser()"
-      >
-        Check My Session
-      </button>
+    <div class="topbar-right">
 
+      <span
+        id="userName"
+        class="user-name"
+      ></span>
 
       <button
-        class="danger"
-        onclick="logoutUser()"
+        class="logout"
+        onclick="logout()"
       >
         Logout
       </button>
 
     </div>
 
+  </header>
 
-    <div class="card">
 
-      <h2>API Response</h2>
+  <main class="content">
 
-      <div id="output">
-Waiting...
+    <div class="welcome-card">
+
+      <h2>
+        Welcome to Dream Ladders
+      </h2>
+
+      <p>
+        You are successfully authenticated.
+      </p>
+
+
+      <div class="profile-grid">
+
+        <div class="profile-item">
+
+          <div class="profile-label">
+            User ID
+          </div>
+
+          <div
+            id="userId"
+            class="profile-value"
+          >
+            -
+          </div>
+
+        </div>
+
+
+        <div class="profile-item">
+
+          <div class="profile-label">
+            Name
+          </div>
+
+          <div
+            id="profileName"
+            class="profile-value"
+          >
+            -
+          </div>
+
+        </div>
+
+
+        <div class="profile-item">
+
+          <div class="profile-label">
+            Email
+          </div>
+
+          <div
+            id="profileEmail"
+            class="profile-value"
+          >
+            -
+          </div>
+
+        </div>
+
+
+        <div class="profile-item">
+
+          <div class="profile-label">
+            Role
+          </div>
+
+          <div
+            id="profileRole"
+            class="profile-value"
+          >
+            -
+          </div>
+
+        </div>
+
+
+        <div class="profile-item">
+
+          <div class="profile-label">
+            Status
+          </div>
+
+          <div
+            id="profileStatus"
+            class="profile-value"
+          >
+            -
+          </div>
+
+        </div>
+
       </div>
-
-      <div
-        id="status"
-        class="status"
-      ></div>
 
     </div>
 
+  </main>
+
+</div>
+
+
+<!-- =====================================================
+     LOADING
+===================================================== -->
+
+<div id="loading">
+
+  <div class="loading-box">
+    Please wait...
   </div>
+
+</div>
 
 
 <script>
 
-/************************************************************
- * YOUR APPS SCRIPT WEB APP URL
- *
- * IMPORTANT:
- * Paste your NEW working /exec URL here.
- ************************************************************/
+/* =========================================================
+   CONFIG
+========================================================= */
 
 const API_URL =
-  "https://script.google.com/macros/s/AKfycbzeWyzu9uPCyJ0gR5avadzKAHnORa_EFHGUosxGqpfXG2e3EASlHh5tnUKB1T4O7Lwf2g/exec";
+  "https://script.google.com/macros/s/AKfycbyvsAY2Ux58HfP_KH9wueajN8D53s7oE7hYQiAA2ECPfb515k7Mjdirb9FpQoNF4VoHUQ/exec";
 
 
-/************************************************************
- * DISPLAY RESULT
- ************************************************************/
+const TOKEN_KEY =
+  "dreamLaddersToken";
 
-function showResult(data) {
+
+let currentUser = null;
+
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+function setLoading(show) {
 
   document.getElementById(
-    "output"
-  ).textContent =
-    JSON.stringify(
-      data,
-      null,
-      2
+    "loading"
+  ).style.display =
+    show ? "flex" : "none";
+
+}
+
+
+/* =========================================================
+   MESSAGE
+========================================================= */
+
+function showMessage(
+  text,
+  type = "error"
+) {
+
+  const element =
+    document.getElementById(
+      "message"
     );
 
-}
+  element.textContent =
+    text;
 
-
-/************************************************************
- * DISPLAY STATUS
- ************************************************************/
-
-function showStatus(message) {
-
-  document.getElementById(
-    "status"
-  ).textContent =
-    message;
+  element.className =
+    "message " + type;
 
 }
 
 
-/************************************************************
- * GENERIC API REQUEST
- ************************************************************/
+/* =========================================================
+   API REQUEST
+========================================================= */
 
 async function apiRequest(
   payload
 ) {
-
-  showStatus(
-    "Sending request..."
-  );
-
 
   try {
 
@@ -291,21 +563,17 @@ async function apiRequest(
       await fetch(
         API_URL,
         {
-
           method: "POST",
 
           headers: {
-
             "Content-Type":
               "text/plain;charset=utf-8"
-
           },
 
           body:
             JSON.stringify(
               payload
             )
-
         }
       );
 
@@ -314,104 +582,48 @@ async function apiRequest(
       await response.text();
 
 
-    let data;
-
-
     try {
 
-      data =
-        JSON.parse(
-          text
-        );
+      return JSON.parse(
+        text
+      );
 
-    } catch (error) {
+    } catch {
 
-      data = {
-
+      return {
         success: false,
-
         error:
-          "Server returned non-JSON response",
-
-        raw:
-          text
-
+          "Invalid response from server."
       };
 
     }
 
+  } catch {
 
-    showResult(
-      data
-    );
-
-
-    if (
-      data.success
-    ) {
-
-      showStatus(
-        "Success"
-      );
-
-    } else {
-
-      showStatus(
-        "Request failed"
-      );
-
-    }
-
-
-    return data;
-
-
-  } catch (error) {
-
-    const result = {
-
+    return {
       success: false,
-
       error:
-        error.message
-
+        "Unable to connect to server."
     };
 
-
-    showResult(
-      result
-    );
-
-
-    showStatus(
-      "Network error"
-    );
-
-
-    return result;
   }
+
 }
 
 
-/************************************************************
- * REGISTER
- ************************************************************/
+/* =========================================================
+   LOGIN
+========================================================= */
 
-async function registerUser() {
+async function login(event) {
 
-  const name =
-    document
-      .getElementById(
-        "registerName"
-      )
-      .value
-      .trim();
+  event.preventDefault();
 
 
   const email =
     document
       .getElementById(
-        "registerEmail"
+        "email"
       )
       .value
       .trim();
@@ -420,81 +632,25 @@ async function registerUser() {
   const password =
     document
       .getElementById(
-        "registerPassword"
+        "password"
       )
       .value;
 
 
-  if (
-    !name ||
-    !email ||
-    !password
-  ) {
+  if (!email || !password) {
 
-    showStatus(
-      "Please fill all registration fields."
+    showMessage(
+      "Email and password are required."
     );
 
     return;
   }
 
 
-  await apiRequest({
-
-    action:
-      "register",
-
-    name:
-      name,
-
-    email:
-      email,
-
-    password:
-      password
-
-  });
-
-}
+  setLoading(true);
 
 
-/************************************************************
- * LOGIN
- ************************************************************/
-
-async function loginUser() {
-
-  const email =
-    document
-      .getElementById(
-        "loginEmail"
-      )
-      .value
-      .trim();
-
-
-  const password =
-    document
-      .getElementById(
-        "loginPassword"
-      )
-      .value;
-
-
-  if (
-    !email ||
-    !password
-  ) {
-
-    showStatus(
-      "Enter email and password."
-    );
-
-    return;
-  }
-
-
-  const data =
+  const result =
     await apiRequest({
 
       action:
@@ -509,102 +665,230 @@ async function loginUser() {
     });
 
 
+  setLoading(false);
+
+
+  if (!result.success) {
+
+    showMessage(
+      result.error ||
+        "Invalid email or password."
+    );
+
+    return;
+  }
+
+
+  if (!result.token) {
+
+    showMessage(
+      "Login failed: no session token received."
+    );
+
+    return;
+  }
+
+
   /*
-   * Save session token.
+   * Save the session token.
    */
 
+  localStorage.setItem(
+    TOKEN_KEY,
+    result.token
+  );
+
+
+  /*
+   * Don't trust the login response alone.
+   *
+   * Immediately verify the session with
+   * the existing backend "me" action.
+   */
+
+  await verifySession();
+
+}
+
+
+/* =========================================================
+   VERIFY SESSION
+========================================================= */
+
+async function verifySession() {
+
+  const token =
+    localStorage.getItem(
+      TOKEN_KEY
+    );
+
+
+  if (!token) {
+
+    showLogin();
+
+    return;
+  }
+
+
+  setLoading(true);
+
+
+  const result =
+    await apiRequest({
+
+      action:
+        "me",
+
+      token:
+        token
+
+    });
+
+
+  setLoading(false);
+
+
   if (
-    data &&
-    data.success &&
-    data.token
+    !result.success ||
+    !result.user
   ) {
 
-    localStorage.setItem(
-
-      "dreamLaddersToken",
-
-      data.token
-
+    localStorage.removeItem(
+      TOKEN_KEY
     );
 
+    currentUser = null;
 
-    localStorage.setItem(
-
-      "dreamLaddersUser",
-
-      JSON.stringify(
-        data.user
-      )
-
-    );
-
-
-    showStatus(
-      "Login successful. Session saved."
-    );
-  }
-
-}
-
-
-/************************************************************
- * GET CURRENT USER
- ************************************************************/
-
-async function getCurrentUser() {
-
-  const token =
-    localStorage.getItem(
-      "dreamLaddersToken"
-    );
-
-
-  if (!token) {
-
-    showStatus(
-      "No login session found."
-    );
+    showLogin();
 
     return;
   }
 
 
-  await apiRequest({
+  /*
+   * Backend confirmed authentication.
+   */
 
-    action:
-      "me",
+  currentUser =
+    result.user;
 
-    token:
-      token
 
-  });
+  showProtectedApplication(
+    currentUser
+  );
 
 }
 
 
-/************************************************************
- * LOGOUT
- ************************************************************/
+/* =========================================================
+   SHOW PROTECTED APPLICATION
+========================================================= */
 
-async function logoutUser() {
+function showProtectedApplication(
+  user
+) {
+
+  document
+    .getElementById(
+      "authScreen"
+    )
+    .classList.add(
+      "hidden"
+    );
+
+
+  document
+    .getElementById(
+      "protectedApp"
+    )
+    .classList.remove(
+      "hidden"
+    );
+
+
+  document.getElementById(
+    "userName"
+  ).textContent =
+    user.name;
+
+
+  document.getElementById(
+    "userId"
+  ).textContent =
+    user.userId;
+
+
+  document.getElementById(
+    "profileName"
+  ).textContent =
+    user.name;
+
+
+  document.getElementById(
+    "profileEmail"
+  ).textContent =
+    user.email;
+
+
+  document.getElementById(
+    "profileRole"
+  ).textContent =
+    user.role;
+
+
+  document.getElementById(
+    "profileStatus"
+  ).textContent =
+    user.status;
+
+}
+
+
+/* =========================================================
+   SHOW LOGIN
+========================================================= */
+
+function showLogin() {
+
+  document
+    .getElementById(
+      "protectedApp"
+    )
+    .classList.add(
+      "hidden"
+    );
+
+
+  document
+    .getElementById(
+      "authScreen"
+    )
+    .classList.remove(
+      "hidden"
+    );
+
+}
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+async function logout() {
 
   const token =
     localStorage.getItem(
-      "dreamLaddersToken"
+      TOKEN_KEY
     );
 
 
-  if (!token) {
+  /*
+   * Tell backend to invalidate session.
+   */
 
-    showStatus(
-      "Already logged out."
-    );
+  if (token) {
 
-    return;
-  }
-
-
-  const data =
     await apiRequest({
 
       action:
@@ -615,59 +899,80 @@ async function logoutUser() {
 
     });
 
-
-  if (
-    data &&
-    data.success
-  ) {
-
-    localStorage.removeItem(
-      "dreamLaddersToken"
-    );
-
-
-    localStorage.removeItem(
-      "dreamLaddersUser"
-    );
-
-
-    showStatus(
-      "Logged out."
-    );
   }
+
+
+  /*
+   * Remove browser session.
+   */
+
+  localStorage.removeItem(
+    TOKEN_KEY
+  );
+
+
+  currentUser = null;
+
+
+  showLogin();
 
 }
 
 
-/************************************************************
- * PAGE LOAD
- ************************************************************/
+/* =========================================================
+   REGISTER
+========================================================= */
+
+function showRegister() {
+
+  /*
+   * For now registration can be added
+   * as a separate page/modal using the
+   * existing "register" backend action.
+   */
+
+  alert(
+    "Registration page will be added next."
+  );
+
+}
+
+
+/* =========================================================
+   INITIAL PAGE CHECK
+========================================================= */
+
+async function initialize() {
+
+  /*
+   * IMPORTANT:
+   *
+   * No protected application is shown
+   * until the backend confirms the token.
+   */
+
+  const token =
+    localStorage.getItem(
+      TOKEN_KEY
+    );
+
+
+  if (!token) {
+
+    showLogin();
+
+    return;
+  }
+
+
+  await verifySession();
+
+}
+
 
 window.addEventListener(
   "DOMContentLoaded",
-  function() {
-
-    const token =
-      localStorage.getItem(
-        "dreamLaddersToken"
-      );
-
-
-    if (token) {
-
-      showStatus(
-        "Existing session token found."
-      );
-
-    } else {
-
-      showStatus(
-        "No active session."
-      );
-
-    }
-
-  }
+  initialize
 );
 
 </script>
