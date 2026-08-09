@@ -1,12 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Dream Ladders</title>
-
-  <style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">  <title>Dream Ladders ERP</title>  <style>
     * {
       box-sizing: border-box;
     }
@@ -20,6 +15,10 @@
 
     .hidden {
       display: none !important;
+    }
+
+    button {
+      font-family: inherit;
     }
 
     /* =========================
@@ -68,16 +67,26 @@
       font-weight: 600;
     }
 
-    input {
+    input,
+    textarea,
+    select {
       width: 100%;
       padding: 12px;
       border: 1px solid #d1d5db;
       border-radius: 8px;
       font-size: 15px;
       outline: none;
+      background: white;
     }
 
-    input:focus {
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
       border-color: #2563eb;
     }
 
@@ -132,9 +141,8 @@
       color: #166534;
     }
 
-
     /* =========================
-       PROTECTED APPLICATION
+       APPLICATION
     ========================= */
 
     #protectedApp {
@@ -146,11 +154,9 @@
       background: #111827;
       color: white;
       padding: 12px 20px;
-
       display: flex;
       align-items: center;
       justify-content: space-between;
-
       gap: 15px;
     }
 
@@ -179,7 +185,7 @@
     }
 
     .content {
-      max-width: 1100px;
+      max-width: 1200px;
       margin: auto;
       padding: 25px;
     }
@@ -196,11 +202,13 @@
       margin-top: 0;
     }
 
+    /* =========================
+       PROFILE
+    ========================= */
+
     .profile-grid {
       display: grid;
-      grid-template-columns:
-        repeat(auto-fit, minmax(220px, 1fr));
-
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 15px;
     }
 
@@ -221,7 +229,6 @@
       word-break: break-word;
     }
 
-
     /* =========================
        ADMIN
     ========================= */
@@ -236,21 +243,26 @@
       font-weight: 600;
     }
 
-    .user-table {
+    .user-table,
+    .task-table {
       width: 100%;
       border-collapse: collapse;
       margin-top: 15px;
     }
 
     .user-table th,
-    .user-table td {
+    .user-table td,
+    .task-table th,
+    .task-table td {
       padding: 10px;
       border-bottom: 1px solid #e5e7eb;
       text-align: left;
       font-size: 14px;
+      vertical-align: top;
     }
 
-    .user-table th {
+    .user-table th,
+    .task-table th {
       background: #f9fafb;
     }
 
@@ -272,6 +284,101 @@
       color: #b91c1c;
     }
 
+    .task-button {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .danger-button {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    /* =========================
+       TASKS
+    ========================= */
+
+    .task-grid {
+      display: grid;
+      grid-template-columns: minmax(280px, 380px) 1fr;
+      gap: 20px;
+    }
+
+    .task-form-card {
+      background: #f9fafb;
+      padding: 18px;
+      border-radius: 10px;
+    }
+
+    .task-form-card h3 {
+      margin-top: 0;
+    }
+
+    .task-table-wrapper {
+      overflow-x: auto;
+    }
+
+    .status-badge,
+    .priority-badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .status-pending {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .status-progress {
+      background: #dbeafe;
+      color: #1d4ed8;
+    }
+
+    .status-completed {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .status-cancelled {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .priority-low {
+      background: #e5e7eb;
+      color: #374151;
+    }
+
+    .priority-medium {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .priority-high {
+      background: #fed7aa;
+      color: #9a3412;
+    }
+
+    .priority-urgent {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .task-description {
+      max-width: 260px;
+      white-space: normal;
+      word-break: break-word;
+    }
+
+    .empty-state {
+      padding: 20px;
+      text-align: center;
+      color: #6b7280;
+    }
 
     /* =========================
        CHANGE PASSWORD
@@ -281,7 +388,6 @@
       max-width: 500px;
     }
 
-
     /* =========================
        LOADING
     ========================= */
@@ -289,13 +395,10 @@
     #loading {
       position: fixed;
       inset: 0;
-
       display: none;
       align-items: center;
       justify-content: center;
-
       background: rgba(255, 255, 255, 0.8);
-
       z-index: 9999;
     }
 
@@ -306,9 +409,17 @@
       border-radius: 8px;
     }
 
+    /* =========================
+       RESPONSIVE
+    ========================= */
+
+    @media (max-width: 850px) {
+      .task-grid {
+        grid-template-columns: 1fr;
+      }
+    }
 
     @media (max-width: 650px) {
-
       .topbar {
         flex-direction: column;
         align-items: flex-start;
@@ -323,390 +434,244 @@
         padding: 15px;
       }
 
-      .user-table {
+      .user-table,
+      .task-table {
         display: block;
         overflow-x: auto;
       }
-
     }
-
-  </style>
-</head>
-
-
-<body>
-
-
-<!-- =====================================================
+  </style></head><body><!-- =====================================================
      AUTH SCREEN
-===================================================== -->
+===================================================== --><div id="authScreen">  <div class="auth-card"><div class="brand">
+  <h1>Dream Ladders</h1>
+  <p id="authSubtitle">Please login to continue</p>
+</div>
 
-<div id="authScreen">
+<!-- LOGIN -->
 
-  <div class="auth-card">
+<form id="loginForm" onsubmit="login(event)">
 
-    <div class="brand">
+  <div class="form-group">
+    <label for="loginEmail">Email</label>
 
-      <h1>Dream Ladders</h1>
-
-      <p id="authSubtitle">
-        Please login to continue
-      </p>
-
-    </div>
-
-
-    <!-- =========================
-         LOGIN FORM
-    ========================== -->
-
-    <form
-      id="loginForm"
-      onsubmit="login(event)"
+    <input
+      id="loginEmail"
+      type="email"
+      autocomplete="username"
+      required
     >
-
-      <div class="form-group">
-
-        <label for="loginEmail">
-          Email
-        </label>
-
-        <input
-          id="loginEmail"
-          type="email"
-          autocomplete="username"
-          required
-        >
-
-      </div>
-
-
-      <div class="form-group">
-
-        <label for="loginPassword">
-          Password
-        </label>
-
-        <input
-          id="loginPassword"
-          type="password"
-          autocomplete="current-password"
-          required
-        >
-
-      </div>
-
-
-      <button
-        id="loginButton"
-        class="primary-button"
-        type="submit"
-      >
-        Login
-      </button>
-
-    </form>
-
-
-    <!-- =========================
-         REGISTER FORM
-    ========================== -->
-
-    <form
-      id="registerForm"
-      class="hidden"
-      onsubmit="register(event)"
-    >
-
-      <div class="form-group">
-
-        <label for="registerName">
-          Name
-        </label>
-
-        <input
-          id="registerName"
-          type="text"
-          autocomplete="name"
-          required
-        >
-
-      </div>
-
-
-      <div class="form-group">
-
-        <label for="registerEmail">
-          Email
-        </label>
-
-        <input
-          id="registerEmail"
-          type="email"
-          autocomplete="email"
-          required
-        >
-
-      </div>
-
-
-      <div class="form-group">
-
-        <label for="registerPassword">
-          Password
-        </label>
-
-        <input
-          id="registerPassword"
-          type="password"
-          autocomplete="new-password"
-          minlength="8"
-          required
-        >
-
-      </div>
-
-
-      <div class="form-group">
-
-        <label for="registerConfirmPassword">
-          Confirm Password
-        </label>
-
-        <input
-          id="registerConfirmPassword"
-          type="password"
-          autocomplete="new-password"
-          minlength="8"
-          required
-        >
-
-      </div>
-
-
-      <button
-        id="registerButton"
-        class="primary-button"
-        type="submit"
-      >
-        Create Account
-      </button>
-
-    </form>
-
-
-    <div class="switch">
-
-      <span id="switchText">
-        Don't have an account?
-      </span>
-
-      <button
-        id="switchButton"
-        class="secondary-button"
-        type="button"
-        onclick="toggleAuthMode()"
-      >
-        Register
-      </button>
-
-    </div>
-
-
-    <div
-      id="authMessage"
-      class="message"
-    ></div>
-
   </div>
+
+  <div class="form-group">
+    <label for="loginPassword">Password</label>
+
+    <input
+      id="loginPassword"
+      type="password"
+      autocomplete="current-password"
+      required
+    >
+  </div>
+
+  <button
+    id="loginButton"
+    class="primary-button"
+    type="submit"
+  >
+    Login
+  </button>
+
+</form>
+
+<!-- REGISTER -->
+
+<form
+  id="registerForm"
+  class="hidden"
+  onsubmit="register(event)"
+>
+
+  <div class="form-group">
+    <label for="registerName">Name</label>
+
+    <input
+      id="registerName"
+      type="text"
+      autocomplete="name"
+      required
+    >
+  </div>
+
+  <div class="form-group">
+    <label for="registerEmail">Email</label>
+
+    <input
+      id="registerEmail"
+      type="email"
+      autocomplete="email"
+      required
+    >
+  </div>
+
+  <div class="form-group">
+    <label for="registerPassword">Password</label>
+
+    <input
+      id="registerPassword"
+      type="password"
+      autocomplete="new-password"
+      minlength="8"
+      required
+    >
+  </div>
+
+  <div class="form-group">
+    <label for="registerConfirmPassword">
+      Confirm Password
+    </label>
+
+    <input
+      id="registerConfirmPassword"
+      type="password"
+      autocomplete="new-password"
+      minlength="8"
+      required
+    >
+  </div>
+
+  <button
+    id="registerButton"
+    class="primary-button"
+    type="submit"
+  >
+    Create Account
+  </button>
+
+</form>
+
+<div class="switch">
+
+  <span id="switchText">
+    Don't have an account?
+  </span>
+
+  <button
+    id="switchButton"
+    class="secondary-button"
+    type="button"
+    onclick="toggleAuthMode()"
+  >
+    Register
+  </button>
 
 </div>
 
+<div id="authMessage" class="message"></div>
 
-<!-- =====================================================
+  </div></div><!-- =====================================================
      PROTECTED APPLICATION
-===================================================== -->
+===================================================== --><div id="protectedApp" class="hidden">  <header class="topbar"><div class="topbar-title">
+  Dream Ladders ERP
+</div>
 
-<div
-  id="protectedApp"
-  class="hidden"
->
+<div class="topbar-right">
+
+  <span
+    id="topbarUserName"
+    class="user-name"
+  ></span>
+
+  <button
+    class="logout-button"
+    onclick="logout()"
+  >
+    Logout
+  </button>
+
+</div>
+
+  </header>  <main class="content"><!-- WELCOME -->
+
+<section class="card">
+
+  <h2>Welcome to Dream Ladders</h2>
+
+  <p>
+    You are successfully authenticated.
+  </p>
+
+</section>
 
 
-  <!-- =========================
-       TOP BAR
-  ========================== -->
+<!-- PROFILE -->
 
-  <header class="topbar">
+<section class="card">
 
-    <div class="topbar-title">
-      Dream Ladders ERP
+  <h2>My Profile</h2>
+
+  <div class="profile-grid">
+
+    <div class="profile-item">
+      <div class="profile-label">User ID</div>
+      <div id="profileUserId" class="profile-value">-</div>
     </div>
 
-
-    <div class="topbar-right">
-
-      <span
-        id="topbarUserName"
-        class="user-name"
-      ></span>
-
-
-      <button
-        class="logout-button"
-        onclick="logout()"
-      >
-        Logout
-      </button>
-
+    <div class="profile-item">
+      <div class="profile-label">Name</div>
+      <div id="profileName" class="profile-value">-</div>
     </div>
 
-  </header>
+    <div class="profile-item">
+      <div class="profile-label">Email</div>
+      <div id="profileEmail" class="profile-value">-</div>
+    </div>
+
+    <div class="profile-item">
+      <div class="profile-label">Role</div>
+      <div id="profileRole" class="profile-value">-</div>
+    </div>
+
+    <div class="profile-item">
+      <div class="profile-label">Status</div>
+      <div id="profileStatus" class="profile-value">-</div>
+    </div>
+
+  </div>
+
+</section>
 
 
-  <main class="content">
+<!-- =================================================
+     TASK MANAGEMENT
+================================================== -->
 
+<section class="card">
 
-    <!-- =========================
-         WELCOME
-    ========================== -->
+  <h2>Task Management</h2>
 
-    <section class="card">
+  <div class="task-grid">
 
-      <h2>
-        Welcome to Dream Ladders
-      </h2>
+    <!-- CREATE TASK -->
 
-      <p>
-        You are successfully authenticated.
-      </p>
+    <div
+      id="createTaskSection"
+      class="task-form-card hidden"
+    >
 
-    </section>
+      <h3>Create Task</h3>
 
-
-    <!-- =========================
-         PROFILE
-    ========================== -->
-
-    <section class="card">
-
-      <h2>
-        My Profile
-      </h2>
-
-
-      <div class="profile-grid">
-
-
-        <div class="profile-item">
-
-          <div class="profile-label">
-            User ID
-          </div>
-
-          <div
-            id="profileUserId"
-            class="profile-value"
-          >
-            -
-          </div>
-
-        </div>
-
-
-        <div class="profile-item">
-
-          <div class="profile-label">
-            Name
-          </div>
-
-          <div
-            id="profileName"
-            class="profile-value"
-          >
-            -
-          </div>
-
-        </div>
-
-
-        <div class="profile-item">
-
-          <div class="profile-label">
-            Email
-          </div>
-
-          <div
-            id="profileEmail"
-            class="profile-value"
-          >
-            -
-          </div>
-
-        </div>
-
-
-        <div class="profile-item">
-
-          <div class="profile-label">
-            Role
-          </div>
-
-          <div
-            id="profileRole"
-            class="profile-value"
-          >
-            -
-          </div>
-
-        </div>
-
-
-        <div class="profile-item">
-
-          <div class="profile-label">
-            Status
-          </div>
-
-          <div
-            id="profileStatus"
-            class="profile-value"
-          >
-            -
-          </div>
-
-        </div>
-
-
-      </div>
-
-    </section>
-
-
-    <!-- =========================
-         CHANGE PASSWORD
-    ========================== -->
-
-    <section class="card change-password">
-
-      <h2>
-        Change Password
-      </h2>
-
-
-      <form
-        onsubmit="changePassword(event)"
-      >
+      <form onsubmit="createTask(event)">
 
         <div class="form-group">
 
-          <label>
-            Current Password
+          <label for="taskTitle">
+            Title
           </label>
 
           <input
-            id="oldPassword"
-            type="password"
+            id="taskTitle"
+            type="text"
+            maxlength="150"
             required
           >
 
@@ -715,31 +680,66 @@
 
         <div class="form-group">
 
-          <label>
-            New Password
+          <label for="taskDescription">
+            Description
           </label>
 
-          <input
-            id="newPassword"
-            type="password"
-            minlength="8"
-            required
-          >
+          <textarea
+            id="taskDescription"
+            maxlength="2000"
+          ></textarea>
 
         </div>
 
 
         <div class="form-group">
 
-          <label>
-            Confirm New Password
+          <label for="taskAssignedTo">
+            Assign To
+          </label>
+
+          <select
+            id="taskAssignedTo"
+            required
+          >
+            <option value="">
+              Loading users...
+            </option>
+          </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label for="taskPriority">
+            Priority
+          </label>
+
+          <select
+            id="taskPriority"
+            required
+          >
+            <option value="Low">Low</option>
+            <option value="Medium" selected>
+              Medium
+            </option>
+            <option value="High">High</option>
+            <option value="Urgent">Urgent</option>
+          </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label for="taskDueDate">
+            Due Date
           </label>
 
           <input
-            id="confirmNewPassword"
-            type="password"
-            minlength="8"
-            required
+            id="taskDueDate"
+            type="date"
           >
 
         </div>
@@ -749,80 +749,152 @@
           class="primary-button"
           type="submit"
         >
-          Change Password
+          Create Task
         </button>
 
       </form>
 
-
-      <div
-        id="passwordMessage"
-        class="message"
-      ></div>
-
-    </section>
+    </div>
 
 
-    <!-- =========================
-         ADMIN PANEL
-    ========================== -->
+    <!-- TASK LIST -->
 
-    <section
-      id="adminPanel"
-      class="card hidden"
-    >
-
-      <h2>
-        Admin Panel
-      </h2>
-
-      <p>
-
-        <span class="admin-badge">
-          Administrator
-        </span>
-
-      </p>
-
+    <div>
 
       <button
         class="primary-button"
-        onclick="loadUsers()"
+        onclick="loadTasks()"
       >
-        Refresh Users
+        Refresh Tasks
       </button>
 
+      <div id="tasksContainer">
 
-      <div id="usersContainer">
-
-        <p>
-          Click Refresh Users to load users.
-        </p>
+        <div class="empty-state">
+          Click Refresh Tasks to load tasks.
+        </div>
 
       </div>
 
-    </section>
+    </div>
 
-
-  </main>
-
-</div>
-
-
-<!-- =====================================================
-     LOADING
-===================================================== -->
-
-<div id="loading">
-
-  <div class="loading-box">
-    Please wait...
   </div>
 
-</div>
+</section>
 
 
-<script>
+<!-- CHANGE PASSWORD -->
+
+<section class="card change-password">
+
+  <h2>Change Password</h2>
+
+  <form onsubmit="changePassword(event)">
+
+    <div class="form-group">
+
+      <label>
+        Current Password
+      </label>
+
+      <input
+        id="oldPassword"
+        type="password"
+        required
+      >
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label>
+        New Password
+      </label>
+
+      <input
+        id="newPassword"
+        type="password"
+        minlength="8"
+        required
+      >
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label>
+        Confirm New Password
+      </label>
+
+      <input
+        id="confirmNewPassword"
+        type="password"
+        minlength="8"
+        required
+      >
+
+    </div>
+
+
+    <button
+      class="primary-button"
+      type="submit"
+    >
+      Change Password
+    </button>
+
+  </form>
+
+
+  <div
+    id="passwordMessage"
+    class="message"
+  ></div>
+
+</section>
+
+
+<!-- ADMIN PANEL -->
+
+<section
+  id="adminPanel"
+  class="card hidden"
+>
+
+  <h2>Admin Panel</h2>
+
+  <p>
+    <span class="admin-badge">
+      Administrator
+    </span>
+  </p>
+
+
+  <button
+    class="primary-button"
+    onclick="loadUsers()"
+  >
+    Refresh Users
+  </button>
+
+
+  <div id="usersContainer">
+
+    <p>
+      Click Refresh Users to load users.
+    </p>
+
+  </div>
+
+</section>
+
+  </main></div><!-- =====================================================
+     LOADING
+===================================================== --><div id="loading">  <div class="loading-box">
+    Please wait...
+  </div></div><script>
 
 /* =========================================================
    CONFIGURATION
@@ -831,12 +903,12 @@
 const API_URL =
   "https://script.google.com/macros/s/AKfycbyvsAY2Ux58HfP_KH9wueajN8D53s7oE7hYQiAA2ECPfb515k7Mjdirb9FpQoNF4VoHUQ/exec";
 
-
 const TOKEN_KEY =
   "dreamLaddersToken";
 
-
 let currentUser = null;
+
+let cachedUsers = [];
 
 
 /* =========================================================
@@ -854,18 +926,13 @@ function setLoading(show) {
 
 
 /* =========================================================
-   AUTH MESSAGE
+   MESSAGES
 ========================================================= */
 
-function showAuthMessage(
-  text,
-  type = "error"
-) {
+function showAuthMessage(text, type = "error") {
 
   const box =
-    document.getElementById(
-      "authMessage"
-    );
+    document.getElementById("authMessage");
 
   box.textContent = text;
 
@@ -881,9 +948,7 @@ function showPasswordMessage(
 ) {
 
   const box =
-    document.getElementById(
-      "passwordMessage"
-    );
+    document.getElementById("passwordMessage");
 
   box.textContent = text;
 
@@ -897,9 +962,7 @@ function showPasswordMessage(
    API
 ========================================================= */
 
-async function apiRequest(
-  payload
-) {
+async function apiRequest(payload) {
 
   try {
 
@@ -960,46 +1023,30 @@ async function apiRequest(
 function toggleAuthMode() {
 
   const loginForm =
-    document.getElementById(
-      "loginForm"
-    );
+    document.getElementById("loginForm");
 
   const registerForm =
-    document.getElementById(
-      "registerForm"
-    );
+    document.getElementById("registerForm");
 
   const subtitle =
-    document.getElementById(
-      "authSubtitle"
-    );
+    document.getElementById("authSubtitle");
 
   const switchText =
-    document.getElementById(
-      "switchText"
-    );
+    document.getElementById("switchText");
 
   const switchButton =
-    document.getElementById(
-      "switchButton"
-    );
+    document.getElementById("switchButton");
 
 
   const registerVisible =
-    !registerForm.classList.contains(
-      "hidden"
-    );
+    !registerForm.classList.contains("hidden");
 
 
   if (registerVisible) {
 
-    registerForm.classList.add(
-      "hidden"
-    );
+    registerForm.classList.add("hidden");
 
-    loginForm.classList.remove(
-      "hidden"
-    );
+    loginForm.classList.remove("hidden");
 
     subtitle.textContent =
       "Please login to continue";
@@ -1012,13 +1059,9 @@ function toggleAuthMode() {
 
   } else {
 
-    loginForm.classList.add(
-      "hidden"
-    );
+    loginForm.classList.add("hidden");
 
-    registerForm.classList.remove(
-      "hidden"
-    );
+    registerForm.classList.remove("hidden");
 
     subtitle.textContent =
       "Create your account";
@@ -1045,45 +1088,30 @@ async function register(event) {
 
   event.preventDefault();
 
-
   const name =
     document
-      .getElementById(
-        "registerName"
-      )
+      .getElementById("registerName")
       .value
       .trim();
-
 
   const email =
     document
-      .getElementById(
-        "registerEmail"
-      )
+      .getElementById("registerEmail")
       .value
       .trim();
 
-
   const password =
     document
-      .getElementById(
-        "registerPassword"
-      )
+      .getElementById("registerPassword")
       .value;
-
 
   const confirmPassword =
     document
-      .getElementById(
-        "registerConfirmPassword"
-      )
+      .getElementById("registerConfirmPassword")
       .value;
 
 
-  if (
-    password !==
-    confirmPassword
-  ) {
+  if (password !== confirmPassword) {
 
     showAuthMessage(
       "Passwords do not match."
@@ -1109,17 +1137,13 @@ async function register(event) {
   const result =
     await apiRequest({
 
-      action:
-        "register",
+      action: "register",
 
-      name:
-        name,
+      name: name,
 
-      email:
-        email,
+      email: email,
 
-      password:
-        password
+      password: password
 
     });
 
@@ -1145,9 +1169,7 @@ async function register(event) {
 
 
   document
-    .getElementById(
-      "registerForm"
-    )
+    .getElementById("registerForm")
     .reset();
 
 
@@ -1157,9 +1179,7 @@ async function register(event) {
       toggleAuthMode();
 
       document
-        .getElementById(
-          "loginEmail"
-        )
+        .getElementById("loginEmail")
         .value =
           email;
 
@@ -1178,21 +1198,15 @@ async function login(event) {
 
   event.preventDefault();
 
-
   const email =
     document
-      .getElementById(
-        "loginEmail"
-      )
+      .getElementById("loginEmail")
       .value
       .trim();
 
-
   const password =
     document
-      .getElementById(
-        "loginPassword"
-      )
+      .getElementById("loginPassword")
       .value;
 
 
@@ -1212,14 +1226,11 @@ async function login(event) {
   const result =
     await apiRequest({
 
-      action:
-        "login",
+      action: "login",
 
-      email:
-        email,
+      email: email,
 
-      password:
-        password
+      password: password
 
     });
 
@@ -1248,12 +1259,6 @@ async function login(event) {
   }
 
 
-  /*
-   * Store only the session token.
-   *
-   * Password is NEVER stored.
-   */
-
   localStorage.setItem(
     TOKEN_KEY,
     result.token
@@ -1272,9 +1277,7 @@ async function login(event) {
 async function verifySession() {
 
   const token =
-    localStorage.getItem(
-      TOKEN_KEY
-    );
+    localStorage.getItem(TOKEN_KEY);
 
 
   if (!token) {
@@ -1291,11 +1294,9 @@ async function verifySession() {
   const result =
     await apiRequest({
 
-      action:
-        "me",
+      action: "me",
 
-      token:
-        token
+      token: token
 
     });
 
@@ -1308,9 +1309,7 @@ async function verifySession() {
     !result.user
   ) {
 
-    localStorage.removeItem(
-      TOKEN_KEY
-    );
+    localStorage.removeItem(TOKEN_KEY);
 
     currentUser = null;
 
@@ -1332,29 +1331,19 @@ async function verifySession() {
 
 
 /* =========================================================
-   SHOW PROTECTED APPLICATION
+   SHOW APPLICATION
 ========================================================= */
 
-function showProtectedApplication(
-  user
-) {
+function showProtectedApplication(user) {
 
   document
-    .getElementById(
-      "authScreen"
-    )
-    .classList.add(
-      "hidden"
-    );
+    .getElementById("authScreen")
+    .classList.add("hidden");
 
 
   document
-    .getElementById(
-      "protectedApp"
-    )
-    .classList.remove(
-      "hidden"
-    );
+    .getElementById("protectedApp")
+    .classList.remove("hidden");
 
 
   document.getElementById(
@@ -1393,31 +1382,36 @@ function showProtectedApplication(
     user.status;
 
 
-  /*
-   * Admin UI.
-   */
-
   if (user.role === "Admin") {
 
     document
-      .getElementById(
-        "adminPanel"
-      )
-      .classList.remove(
-        "hidden"
-      );
+      .getElementById("adminPanel")
+      .classList.remove("hidden");
+
+    document
+      .getElementById("createTaskSection")
+      .classList.remove("hidden");
+
+    loadUsersForTaskAssignment();
 
   } else {
 
     document
-      .getElementById(
-        "adminPanel"
-      )
-      .classList.add(
-        "hidden"
-      );
+      .getElementById("adminPanel")
+      .classList.add("hidden");
+
+    document
+      .getElementById("createTaskSection")
+      .classList.add("hidden");
 
   }
+
+
+  /*
+   * Load the user's tasks automatically.
+   */
+
+  loadTasks();
 
 }
 
@@ -1429,21 +1423,13 @@ function showProtectedApplication(
 function showLogin() {
 
   document
-    .getElementById(
-      "protectedApp"
-    )
-    .classList.add(
-      "hidden"
-    );
+    .getElementById("protectedApp")
+    .classList.add("hidden");
 
 
   document
-    .getElementById(
-      "authScreen"
-    )
-    .classList.remove(
-      "hidden"
-    );
+    .getElementById("authScreen")
+    .classList.remove("hidden");
 
 }
 
@@ -1455,38 +1441,31 @@ function showLogin() {
 async function logout() {
 
   const token =
-    localStorage.getItem(
-      TOKEN_KEY
-    );
+    localStorage.getItem(TOKEN_KEY);
 
 
   if (token) {
 
     await apiRequest({
 
-      action:
-        "logout",
+      action: "logout",
 
-      token:
-        token
+      token: token
 
     });
 
   }
 
 
-  localStorage.removeItem(
-    TOKEN_KEY
-  );
-
+  localStorage.removeItem(TOKEN_KEY);
 
   currentUser = null;
 
+  cachedUsers = [];
+
 
   document
-    .getElementById(
-      "loginForm"
-    )
+    .getElementById("loginForm")
     .reset();
 
 
@@ -1499,17 +1478,12 @@ async function logout() {
    CHANGE PASSWORD
 ========================================================= */
 
-async function changePassword(
-  event
-) {
+async function changePassword(event) {
 
   event.preventDefault();
 
-
   const token =
-    localStorage.getItem(
-      TOKEN_KEY
-    );
+    localStorage.getItem(TOKEN_KEY);
 
 
   if (!token) {
@@ -1522,32 +1496,21 @@ async function changePassword(
 
   const oldPassword =
     document
-      .getElementById(
-        "oldPassword"
-      )
+      .getElementById("oldPassword")
       .value;
-
 
   const newPassword =
     document
-      .getElementById(
-        "newPassword"
-      )
+      .getElementById("newPassword")
       .value;
-
 
   const confirmPassword =
     document
-      .getElementById(
-        "confirmNewPassword"
-      )
+      .getElementById("confirmNewPassword")
       .value;
 
 
-  if (
-    newPassword !==
-    confirmPassword
-  ) {
+  if (newPassword !== confirmPassword) {
 
     showPasswordMessage(
       "New passwords do not match."
@@ -1573,17 +1536,13 @@ async function changePassword(
   const result =
     await apiRequest({
 
-      action:
-        "changePassword",
+      action: "changePassword",
 
-      token:
-        token,
+      token: token,
 
-      oldPassword:
-        oldPassword,
+      oldPassword: oldPassword,
 
-      newPassword:
-        newPassword
+      newPassword: newPassword
 
     });
 
@@ -1602,25 +1561,17 @@ async function changePassword(
   }
 
 
-  document
-    .getElementById(
-      "oldPassword"
-    )
-    .value = "";
+  document.getElementById(
+    "oldPassword"
+  ).value = "";
 
+  document.getElementById(
+    "newPassword"
+  ).value = "";
 
-  document
-    .getElementById(
-      "newPassword"
-    )
-    .value = "";
-
-
-  document
-    .getElementById(
-      "confirmNewPassword"
-    )
-    .value = "";
+  document.getElementById(
+    "confirmNewPassword"
+  ).value = "";
 
 
   showPasswordMessage(
@@ -1637,23 +1588,8 @@ async function changePassword(
 
 async function loadUsers() {
 
-  if (
-    !currentUser ||
-    currentUser.role !== "Admin"
-  ) {
-
-    alert(
-      "Access denied."
-    );
-
-    return;
-  }
-
-
   const token =
-    localStorage.getItem(
-      TOKEN_KEY
-    );
+    localStorage.getItem(TOKEN_KEY);
 
 
   if (!token) {
@@ -1670,11 +1606,9 @@ async function loadUsers() {
   const result =
     await apiRequest({
 
-      action:
-        "adminUsers",
+      action: "adminUsers",
 
-      token:
-        token
+      token: token
 
     });
 
@@ -1693,9 +1627,108 @@ async function loadUsers() {
   }
 
 
+  cachedUsers =
+    result.users || [];
+
+
   renderUsers(
-    result.users || []
+    cachedUsers
   );
+
+
+  populateTaskUsers(
+    cachedUsers
+  );
+
+}
+
+
+/* =========================================================
+   LOAD USERS FOR TASK ASSIGNMENT
+========================================================= */
+
+async function loadUsersForTaskAssignment() {
+
+  const token =
+    localStorage.getItem(TOKEN_KEY);
+
+
+  if (!token) {
+    return;
+  }
+
+
+  const result =
+    await apiRequest({
+
+      action: "adminUsers",
+
+      token: token
+
+    });
+
+
+  if (!result.success) {
+    return;
+  }
+
+
+  cachedUsers =
+    result.users || [];
+
+
+  populateTaskUsers(
+    cachedUsers
+  );
+
+}
+
+
+/* =========================================================
+   POPULATE ASSIGNMENT USERS
+========================================================= */
+
+function populateTaskUsers(users) {
+
+  const select =
+    document.getElementById(
+      "taskAssignedTo"
+    );
+
+
+  if (!select) {
+    return;
+  }
+
+
+  select.innerHTML =
+    '<option value="">Select user</option>';
+
+
+  users
+    .filter(
+      user =>
+        user.status === "Active"
+    )
+    .forEach(
+      user => {
+
+        const option =
+          document.createElement("option");
+
+        option.value =
+          user.userId;
+
+        option.textContent =
+          user.name +
+          " (" +
+          user.email +
+          ")";
+
+        select.appendChild(option);
+
+      }
+    );
 
 }
 
@@ -1704,9 +1737,7 @@ async function loadUsers() {
    ADMIN — RENDER USERS
 ========================================================= */
 
-function renderUsers(
-  users
-) {
+function renderUsers(users) {
 
   const container =
     document.getElementById(
@@ -1742,74 +1773,71 @@ function renderUsers(
   `;
 
 
-  users.forEach(
-    user => {
+  users.forEach(user => {
 
-      const roleButtonText =
-        user.role === "Admin"
-          ? "Make User"
-          : "Make Admin";
-
-
-      const statusButtonText =
-        user.status === "Active"
-          ? "Suspend"
-          : "Activate";
+    const roleButtonText =
+      user.role === "Admin"
+        ? "Make User"
+        : "Make Admin";
 
 
-      html += `
-        <tr>
-
-          <td>
-            ${escapeHtml(user.userId)}
-          </td>
-
-          <td>
-            ${escapeHtml(user.name)}
-          </td>
-
-          <td>
-            ${escapeHtml(user.email)}
-          </td>
-
-          <td>
-            ${escapeHtml(user.role)}
-          </td>
-
-          <td>
-            ${escapeHtml(user.status)}
-          </td>
-
-          <td>
-
-            <button
-              class="small-button role-button"
-              onclick="changeRole(
-                '${escapeJs(user.userId)}',
-                '${escapeJs(user.role)}'
-              )"
-            >
-              ${roleButtonText}
-            </button>
+    const statusButtonText =
+      user.status === "Active"
+        ? "Suspend"
+        : "Activate";
 
 
-            <button
-              class="small-button status-button"
-              onclick="changeStatus(
-                '${escapeJs(user.userId)}',
-                '${escapeJs(user.status)}'
-              )"
-            >
-              ${statusButtonText}
-            </button>
+    html += `
+      <tr>
 
-          </td>
+        <td>
+          ${escapeHtml(user.userId)}
+        </td>
 
-        </tr>
-      `;
+        <td>
+          ${escapeHtml(user.name)}
+        </td>
 
-    }
-  );
+        <td>
+          ${escapeHtml(user.email)}
+        </td>
+
+        <td>
+          ${escapeHtml(user.role)}
+        </td>
+
+        <td>
+          ${escapeHtml(user.status)}
+        </td>
+
+        <td>
+
+          <button
+            class="small-button role-button"
+            onclick="changeRole(
+              '${escapeJs(user.userId)}',
+              '${escapeJs(user.role)}'
+            )"
+          >
+            ${roleButtonText}
+          </button>
+
+          <button
+            class="small-button status-button"
+            onclick="changeStatus(
+              '${escapeJs(user.userId)}',
+              '${escapeJs(user.status)}'
+            )"
+          >
+            ${statusButtonText}
+          </button>
+
+        </td>
+
+      </tr>
+    `;
+
+  });
 
 
   html += `
@@ -1847,15 +1875,12 @@ async function changeRole(
       "?"
     )
   ) {
-
     return;
   }
 
 
   const token =
-    localStorage.getItem(
-      TOKEN_KEY
-    );
+    localStorage.getItem(TOKEN_KEY);
 
 
   setLoading(true);
@@ -1864,17 +1889,13 @@ async function changeRole(
   const result =
     await apiRequest({
 
-      action:
-        "changeUserRole",
+      action: "changeUserRole",
 
-      token:
-        token,
+      token: token,
 
-      userId:
-        userId,
+      userId: userId,
 
-      role:
-        newRole
+      role: newRole
 
     });
 
@@ -1920,15 +1941,12 @@ async function changeStatus(
       "?"
     )
   ) {
-
     return;
   }
 
 
   const token =
-    localStorage.getItem(
-      TOKEN_KEY
-    );
+    localStorage.getItem(TOKEN_KEY);
 
 
   setLoading(true);
@@ -1937,17 +1955,13 @@ async function changeStatus(
   const result =
     await apiRequest({
 
-      action:
-        "changeUserStatus",
+      action: "changeUserStatus",
 
-      token:
-        token,
+      token: token,
 
-      userId:
-        userId,
+      userId: userId,
 
-      status:
-        newStatus
+      status: newStatus
 
     });
 
@@ -1972,51 +1986,594 @@ async function changeStatus(
 
 
 /* =========================================================
-   SECURITY HELPERS
+   TASK — CREATE
 ========================================================= */
 
-function escapeHtml(
-  value
-) {
+async function createTask(event) {
 
-  return String(value)
-    .replace(
-      /&/g,
-      "&amp;"
-    )
-    .replace(
-      /</g,
-      "&lt;"
-    )
-    .replace(
-      />/g,
-      "&gt;"
-    )
-    .replace(
-      /"/g,
-      "&quot;"
-    )
-    .replace(
-      /'/g,
-      "&#039;"
+  event.preventDefault();
+
+
+  const token =
+    localStorage.getItem(TOKEN_KEY);
+
+
+  if (!token) {
+
+    showLogin();
+
+    return;
+  }
+
+
+  /*
+   * The browser may show this UI only to Admins,
+   * but Apps Script remains the real authority.
+   */
+
+  if (
+    !currentUser ||
+    currentUser.role !== "Admin"
+  ) {
+
+    alert(
+      "Access denied."
     );
+
+    return;
+  }
+
+
+  const title =
+    document
+      .getElementById("taskTitle")
+      .value
+      .trim();
+
+
+  const description =
+    document
+      .getElementById("taskDescription")
+      .value
+      .trim();
+
+
+  const assignedTo =
+    document
+      .getElementById("taskAssignedTo")
+      .value;
+
+
+  const priority =
+    document
+      .getElementById("taskPriority")
+      .value;
+
+
+  const dueDate =
+    document
+      .getElementById("taskDueDate")
+      .value;
+
+
+  if (!title) {
+
+    alert(
+      "Task title is required."
+    );
+
+    return;
+  }
+
+
+  if (!assignedTo) {
+
+    alert(
+      "Please select a user."
+    );
+
+    return;
+  }
+
+
+  setLoading(true);
+
+
+  const result =
+    await apiRequest({
+
+      action: "createTask",
+
+      token: token,
+
+      title: title,
+
+      description: description,
+
+      assignedTo: assignedTo,
+
+      priority: priority,
+
+      dueDate: dueDate
+
+    });
+
+
+  setLoading(false);
+
+
+  if (!result.success) {
+
+    alert(
+      result.error ||
+        "Unable to create task."
+    );
+
+    return;
+  }
+
+
+  document
+    .querySelector(
+      "#createTaskSection form"
+    )
+    .reset();
+
+
+  alert(
+    "Task created successfully."
+  );
+
+
+  await loadTasks();
 
 }
 
 
-function escapeJs(
-  value
+/* =========================================================
+   TASK — LOAD
+========================================================= */
+
+async function loadTasks() {
+
+  const token =
+    localStorage.getItem(TOKEN_KEY);
+
+
+  if (!token) {
+
+    showLogin();
+
+    return;
+  }
+
+
+  setLoading(true);
+
+
+  const result =
+    await apiRequest({
+
+      action: "getTasks",
+
+      token: token
+
+    });
+
+
+  setLoading(false);
+
+
+  if (!result.success) {
+
+    const container =
+      document.getElementById(
+        "tasksContainer"
+      );
+
+
+    container.innerHTML =
+      `<div class="empty-state">
+        ${escapeHtml(
+          result.error ||
+            "Unable to load tasks."
+        )}
+      </div>`;
+
+    return;
+  }
+
+
+  renderTasks(
+    result.tasks || []
+  );
+
+}
+
+
+/* =========================================================
+   TASK — RENDER
+========================================================= */
+
+function renderTasks(tasks) {
+
+  const container =
+    document.getElementById(
+      "tasksContainer"
+    );
+
+
+  if (!tasks.length) {
+
+    container.innerHTML =
+      `<div class="empty-state">
+        No tasks found.
+      </div>`;
+
+    return;
+  }
+
+
+  let html = `
+    <div class="task-table-wrapper">
+
+      <table class="task-table">
+
+        <thead>
+          <tr>
+            <th>Task</th>
+            <th>Assigned To</th>
+            <th>Priority</th>
+            <th>Status</th>
+            <th>Due Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+  `;
+
+
+  tasks.forEach(task => {
+
+    const statusClass =
+      getStatusClass(
+        task.status
+      );
+
+
+    const priorityClass =
+      getPriorityClass(
+        task.priority
+      );
+
+
+    html += `
+      <tr>
+
+        <td>
+
+          <strong>
+            ${escapeHtml(
+              task.title || ""
+            )}
+          </strong>
+
+          <div class="task-description">
+            ${escapeHtml(
+              task.description || ""
+            )}
+          </div>
+
+        </td>
+
+        <td>
+          ${escapeHtml(
+            task.assignedToName ||
+            task.assignedTo ||
+            ""
+          )}
+        </td>
+
+        <td>
+          <span
+            class="priority-badge ${priorityClass}"
+          >
+            ${escapeHtml(
+              task.priority || ""
+            )}
+          </span>
+        </td>
+
+        <td>
+          <span
+            class="status-badge ${statusClass}"
+          >
+            ${escapeHtml(
+              task.status || ""
+            )}
+          </span>
+        </td>
+
+        <td>
+          ${escapeHtml(
+            formatDate(task.dueDate)
+          )}
+        </td>
+
+        <td>
+          ${renderTaskActions(task)}
+        </td>
+
+      </tr>
+    `;
+
+  });
+
+
+  html += `
+        </tbody>
+      </table>
+
+    </div>
+  `;
+
+
+  container.innerHTML =
+    html;
+
+}
+
+
+/* =========================================================
+   TASK ACTIONS
+========================================================= */
+
+function renderTaskActions(task) {
+
+  const status =
+    String(task.status || "");
+
+
+  let html = "";
+
+
+  if (
+    status !== "In Progress" &&
+    status !== "Completed" &&
+    status !== "Cancelled"
+  ) {
+
+    html += `
+      <button
+        class="small-button task-button"
+        onclick="updateTaskStatus(
+          '${escapeJs(task.taskId)}',
+          'In Progress'
+        )"
+      >
+        Start
+      </button>
+    `;
+
+  }
+
+
+  if (
+    status === "In Progress"
+  ) {
+
+    html += `
+      <button
+        class="small-button task-button"
+        onclick="updateTaskStatus(
+          '${escapeJs(task.taskId)}',
+          'Completed'
+        )"
+      >
+        Complete
+      </button>
+    `;
+
+  }
+
+
+  if (
+    status !== "Completed" &&
+    status !== "Cancelled"
+  ) {
+
+    html += `
+      <button
+        class="small-button danger-button"
+        onclick="updateTaskStatus(
+          '${escapeJs(task.taskId)}',
+          'Cancelled'
+        )"
+      >
+        Cancel
+      </button>
+    `;
+
+  }
+
+
+  return html || "-";
+
+}
+
+
+/* =========================================================
+   TASK — UPDATE STATUS
+========================================================= */
+
+async function updateTaskStatus(
+  taskId,
+  newStatus
 ) {
 
-  return String(value)
-    .replace(
-      /\\/g,
-      "\\\\"
+  if (
+    !confirm(
+      "Change task status to " +
+      newStatus +
+      "?"
     )
-    .replace(
-      /'/g,
-      "\\'"
+  ) {
+
+    return;
+  }
+
+
+  const token =
+    localStorage.getItem(TOKEN_KEY);
+
+
+  if (!token) {
+
+    showLogin();
+
+    return;
+  }
+
+
+  setLoading(true);
+
+
+  const result =
+    await apiRequest({
+
+      action: "updateTaskStatus",
+
+      token: token,
+
+      taskId: taskId,
+
+      status: newStatus
+
+    });
+
+
+  setLoading(false);
+
+
+  if (!result.success) {
+
+    alert(
+      result.error ||
+        "Unable to update task."
     );
+
+    return;
+  }
+
+
+  await loadTasks();
+
+}
+
+
+/* =========================================================
+   TASK HELPERS
+========================================================= */
+
+function getStatusClass(status) {
+
+  switch (
+    String(status || "")
+      .toLowerCase()
+  ) {
+
+    case "pending":
+      return "status-pending";
+
+    case "in progress":
+      return "status-progress";
+
+    case "completed":
+      return "status-completed";
+
+    case "cancelled":
+      return "status-cancelled";
+
+    default:
+      return "";
+
+  }
+
+}
+
+
+function getPriorityClass(priority) {
+
+  switch (
+    String(priority || "")
+      .toLowerCase()
+  ) {
+
+    case "low":
+      return "priority-low";
+
+    case "medium":
+      return "priority-medium";
+
+    case "high":
+      return "priority-high";
+
+    case "urgent":
+      return "priority-urgent";
+
+    default:
+      return "";
+
+  }
+
+}
+
+
+function formatDate(value) {
+
+  if (!value) {
+    return "-";
+  }
+
+
+  const date =
+    new Date(value);
+
+
+  if (Number.isNaN(date.getTime())) {
+
+    return String(value);
+
+  }
+
+
+  return date.toLocaleDateString();
+
+}
+
+
+/* =========================================================
+   SECURITY HELPERS
+========================================================= */
+
+function escapeHtml(value) {
+
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
+}
+
+
+function escapeJs(value) {
+
+  return String(value)
+    .replace(/\\/g, "\\\\")
+    .replace(/'/g, "\\'");
 
 }
 
@@ -2027,18 +2584,8 @@ function escapeJs(
 
 async function initialize() {
 
-  /*
-   * On every page load:
-   *
-   * 1. Read token.
-   * 2. Ask Apps Script "me".
-   * 3. Only then show protected content.
-   */
-
   const token =
-    localStorage.getItem(
-      TOKEN_KEY
-    );
+    localStorage.getItem(TOKEN_KEY);
 
 
   if (!token) {
@@ -2059,7 +2606,5 @@ window.addEventListener(
   initialize
 );
 
-</script>
-
-</body>
+</script></body>
 </html>
